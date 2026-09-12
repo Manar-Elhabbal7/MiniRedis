@@ -35,19 +35,19 @@ static void do_something(int connfd) {
 }
 
 int main() {
-    // 1. Obtain a socket file descriptor (IPv4, TCP stream)
+    /// create socket
     int fd = socket(AF_INET, SOCK_STREAM, 0);
     if (fd < 0) {
         die("socket()");
     }
 
-    // 2. Set SO_REUSEADDR to avoid "address already in use" errors on restart
+    /// set SO_REUSEADDR to avoid address in use errors
     int val = 1;
     if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val)) < 0) {
         die("setsockopt()");
     }
 
-    // 3. Bind to 0.0.0.0:1234
+    /// bind to 0.0.0.0:1234
     struct sockaddr_in addr = {};
     addr.sin_family = AF_INET;
     addr.sin_port = ntohs(1234);
@@ -58,7 +58,7 @@ int main() {
         die("bind()");
     }
 
-    // 4. Start listening with SOMAXCONN backlog queue
+    /// start listening for incoming connections
     rv = listen(fd, SOMAXCONN);
     if (rv < 0) {
         die("listen()");
@@ -66,13 +66,13 @@ int main() {
 
     msg("Server is listening on port 1234...");
 
-    // 5. Accept connections in a loop (one by one for step 1)
+    /// accept connections in a loop
     while (true) {
         struct sockaddr_in client_addr = {};
         socklen_t socklen = sizeof(client_addr);
         int connfd = accept(fd, reinterpret_cast<struct sockaddr *>(&client_addr), &socklen);
         if (connfd < 0) {
-            continue; // Skip failed accept and keep listening
+            continue; // skip failed accept and keep listening
         }
 
         char client_ip[INET_ADDRSTRLEN];
@@ -83,6 +83,7 @@ int main() {
         close(connfd);
     }
 
+    /// close listening socket
     close(fd);
     return 0;
 }

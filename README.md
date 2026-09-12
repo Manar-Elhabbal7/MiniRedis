@@ -95,13 +95,4 @@ make
 
 ---
 
-## Roadmap
 
-- [x] Socket Lifecycle & POSIX Network Programming
-- [x] Length-Prefixed Binary Request-Response Protocol
-- [x] Single-Threaded Event Loop with `poll()` & Non-Blocking Sockets
-- [x] Pipelined Request Handling & Optimistic Writes
-- [x] Core KV Store Engine (`GET`, `SET`, `DEL`)
-- [ ] Custom Intrusive Hash Table with Incremental Rehashing
-- [ ] TTL Key Expiration using Min-Heaps
-- [ ] Sorted Sets with AVL Trees / Skip Lists

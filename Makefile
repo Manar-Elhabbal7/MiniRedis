@@ -1,13 +1,18 @@
 CXX = g++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -O2
+CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -O2 -Iinclude
+
+SRC_COMMON = src/common.cpp
+SRC_BUFFER = src/buffer.cpp
+SRC_SERVER = src/server.cpp
+SRC_CLIENT = src/client.cpp
 
 all: server client
 
-server: server.cpp
-	$(CXX) $(CXXFLAGS) -o server server.cpp
+server: $(SRC_SERVER) $(SRC_COMMON) $(SRC_BUFFER)
+	$(CXX) $(CXXFLAGS) -o server $(SRC_SERVER) $(SRC_COMMON) $(SRC_BUFFER)
 
-client: client.cpp
-	$(CXX) $(CXXFLAGS) -o client client.cpp
+client: $(SRC_CLIENT) $(SRC_COMMON)
+	$(CXX) $(CXXFLAGS) -o client $(SRC_CLIENT) $(SRC_COMMON)
 
 clean:
 	rm -f server client
